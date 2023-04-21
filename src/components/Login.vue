@@ -15,7 +15,7 @@
           </el-form-item>
           <el-form-item  prop="password">
             <el-input v-model="loginForm.password" placeholder="请输入密码"
-      prefix-icon="el-icon-s-goods" show-password></el-input>
+      prefix-icon="el-icon-s-goods" show-password @keyup.enter.native="submitForm"></el-input>
           </el-form-item>
           <!-- 按钮 -->
           <el-form-item class="btns">
@@ -64,6 +64,9 @@ export default {
     },
     resetForm (formName) {
       this.$refs[formName].resetFields()
+    },
+    iptPsw () {
+      console.log('hi')
     }
   }
 }
