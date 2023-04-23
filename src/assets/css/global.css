@@ -12,6 +12,9 @@ body,
 .el-table {
     margin: 10px 0;
 }
+.el-cascader-menu__list {
+    max-height: 250px;
+}
 .clearfix:before,
   .clearfix:after {
     display: table;

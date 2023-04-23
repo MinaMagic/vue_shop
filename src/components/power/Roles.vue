@@ -8,64 +8,66 @@
     </el-breadcrumb>
     <!-- 卡片视图 -->
     <el-card class="box-card">
-        <!-- 添加角色按钮 -->
-        <el-row>
-            <el-col>
-                <el-button type="primary" @click="addDialogVisible = true">添加角色</el-button>
-            </el-col>
-        </el-row>
-    <!--角色信息表格 -->
-    <el-table
-        :data="rolesList"
-        border
-        stripe
-        style="width: 100%"
-        >
-        <!-- 展开列 -->
-        <el-table-column type="expand" width="50">
-            <template slot-scope="scope">
-                <el-row v-for="(item, i) in scope.row.children" :key="item.id" :gutter="20" :class="['lineBottom',i===0?'lineTop':'','vcenter']">
-                    <el-col :span="4">
-                        <el-tag closable @close="removeRightById(scope.row,item.id)">{{ item.authName }}</el-tag>
-                        <i class="el-icon-caret-right"></i>
-                    </el-col>
-                    <el-col :span="20" >
-                        <el-row v-for="(second,i) in item.children" :key="second.id" :gutter="20" :class="[i===0?'':'lineTop','vcenter']">
-                                <el-col :span="6"><el-tag type="success" closable @close="removeRightById(scope.row,second.id)">{{ second.authName }}</el-tag><i class="el-icon-caret-right"></i>
+      <!-- 添加角色按钮 -->
+      <el-row>
+          <el-col>
+              <el-button type="primary" @click="addDialogVisible = true">添加角色</el-button>
+          </el-col>
+      </el-row>
+      <!--角色信息表格 -->
+      <el-row>
+        <el-table
+          :data="rolesList"
+          border
+          stripe
+          style="width: 100%"
+          >
+          <!-- 展开列 -->
+          <el-table-column type="expand" width="50">
+              <template slot-scope="scope">
+                  <el-row v-for="(item, i) in scope.row.children" :key="item.id" :gutter="20" :class="['lineBottom',i===0?'lineTop':'','vcenter']">
+                      <el-col :span="4">
+                          <el-tag closable @close="removeRightById(scope.row,item.id)">{{ item.authName }}</el-tag>
+                          <i class="el-icon-caret-right"></i>
+                      </el-col>
+                      <el-col :span="20" >
+                          <el-row v-for="(second,i) in item.children" :key="second.id" :gutter="20" :class="[i===0?'':'lineTop','vcenter']">
+                                  <el-col :span="6"><el-tag type="success" closable @close="removeRightById(scope.row,second.id)">{{ second.authName }}</el-tag><i class="el-icon-caret-right"></i>
+                                    </el-col>
+                                  <el-col :span="18">
+                                      <span v-for="third in second.children" :key="third.id"><el-tag type="warning" closable @close="removeRightById(scope.row,third.id)">{{ third.authName }}</el-tag></span>
                                   </el-col>
-                                <el-col :span="18">
-                                    <span v-for="third in second.children" :key="third.id"><el-tag type="warning" closable @close="removeRightById(scope.row,third.id)">{{ third.authName }}</el-tag></span>
-                                </el-col>
-                        </el-row>
-                    </el-col>
-                </el-row>
-            </template>
-        </el-table-column>
-        <el-table-column type="index" label="#" width="50">
-        </el-table-column>
-        <el-table-column prop="roleName" label="角色名称" width="300">
-        </el-table-column>
-        <el-table-column
-          prop="roleDesc"
-          label="角色描述"
-          width="300">
-        </el-table-column>
-        <el-table-column
-          label="操作"
-          width="300">
-            <template slot-scope="scope">
-                <el-tooltip class="item" effect="dark" content="编辑" placement="top">
-                    <el-button type="primary" icon="el-icon-edit" size="small" @click="reviseRole(scope.row.id)"></el-button>
-                </el-tooltip>
-                <el-tooltip class="item" effect="dark" content="删除" placement="top">
-                    <el-button type="danger" icon="el-icon-delete" size="small" @click="deleteRole(scope.row.id)"></el-button>
-                </el-tooltip>
-                <el-tooltip class="item" effect="dark" content="分配权限" placement="top">
-                    <el-button type="warning" icon="el-icon-setting" size="small" @click="showRights(scope.row)"></el-button>
-                </el-tooltip>
-            </template>
-        </el-table-column>
-      </el-table>
+                          </el-row>
+                      </el-col>
+                  </el-row>
+              </template>
+          </el-table-column>
+          <el-table-column type="index" label="#" width="50">
+          </el-table-column>
+          <el-table-column prop="roleName" label="角色名称" width="300">
+          </el-table-column>
+          <el-table-column
+            prop="roleDesc"
+            label="角色描述"
+            width="300">
+          </el-table-column>
+          <el-table-column
+            label="操作"
+            width="300">
+              <template slot-scope="scope">
+                  <el-tooltip class="item" effect="dark" content="编辑" placement="top">
+                      <el-button type="primary" icon="el-icon-edit" size="small" @click="reviseRole(scope.row.id)"></el-button>
+                  </el-tooltip>
+                  <el-tooltip class="item" effect="dark" content="删除" placement="top">
+                      <el-button type="danger" icon="el-icon-delete" size="small" @click="deleteRole(scope.row.id)"></el-button>
+                  </el-tooltip>
+                  <el-tooltip class="item" effect="dark" content="分配权限" placement="top">
+                      <el-button type="warning" icon="el-icon-setting" size="small" @click="showRights(scope.row)"></el-button>
+                  </el-tooltip>
+              </template>
+          </el-table-column>
+        </el-table>
+      </el-row>
 
       <!-- 添加角色对话框 -->
       <el-dialog
@@ -163,7 +165,6 @@ export default {
     async initRolesList () {
       const { data: res } = await this.$http.get('roles')
       if (res.meta.status !== 200) return this.$message.error('获取权限失败')
-      console.log(res.data)
       this.rolesList = res.data
     },
     addDialogClosed () {
