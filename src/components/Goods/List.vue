@@ -58,8 +58,8 @@
           label="操作"
           width="140">
             <template slot-scope="scope">
-              <el-tooltip class="item" effect="dark" content="编辑" placement="top"><el-button type="primary" icon="el-icon-edit" size="small" @click="reviseUser(scope.row.id)"></el-button></el-tooltip>
-              <el-tooltip class="item" effect="dark" content="删除" placement="top"><el-button type="danger" icon="el-icon-delete" size="small" @click="deleteGood(scope.row.goods_id)"></el-button></el-tooltip>
+              <el-tooltip class="item" effect="dark" content="编辑" placement="top"><el-button type="primary" icon="el-icon-edit" size="small" @click="showReviseGoodsDialog(scope.row.goods_id)"></el-button></el-tooltip>
+              <el-tooltip class="item" effect="dark" content="删除" placement="top"><el-button type="danger" icon="el-icon-delete" size="small" @click="deleteGoods(scope.row.goods_id)"></el-button></el-tooltip>
             </template>
         </el-table-column>
       </el-table>
@@ -74,6 +74,30 @@
         background
         :total="total">
       </el-pagination>
+
+      <!-- 修改商品对话框 -->
+    <el-dialog
+      title="编辑商品"
+      :visible.sync="reviseGoodsDialogVisible"
+      width="30%" @close="reviseDialogClosed">
+      <span>
+        <el-form :model="reviseGoodsForm" :rules="reviseGoodsRules" ref="reviseGoodsRef" label-width="80px">
+          <el-form-item label="商品名称" prop="goods_name">
+            <el-input v-model="reviseGoodsForm.goods_name" disabled></el-input>
+          </el-form-item>
+          <el-form-item label="商品价格" prop="goods_price">
+            <el-input v-model="reviseGoodsForm.goods_price"></el-input>
+          </el-form-item>
+          <el-form-item label="商品重量" prop="goods_weight">
+            <el-input v-model="reviseGoodsForm.goods_weight"></el-input>
+          </el-form-item>
+        </el-form>
+      </span>
+      <span slot="footer" class="dialog-footer">
+        <el-button @click="reviseGoodsDialogVisible = false">取 消</el-button>
+        <el-button type="primary" @click="confirmReviseGoods">确 定</el-button>
+      </span>
+    </el-dialog>
     </el-card>
   </div>
 </template>
@@ -88,7 +112,23 @@ export default {
         pagenum: 1,
         pagesize: 10
       },
-      total: 0
+      total: 0,
+      // 编辑商品对话框显示与隐藏
+      reviseGoodsDialogVisible: false,
+      // 修改的商品表单
+      reviseGoodsForm: {},
+      // 修改的商品表单规则
+      reviseGoodsRules: {
+        goods_name: [
+          { required: true, message: '请输入商品名称', trigger: 'blur' }
+        ],
+        goods_price: [
+          { required: true, message: '请输入商品价格', trigger: 'blur' }
+        ],
+        goods_weight: [
+          { required: true, message: '请输入商品重量', trigger: 'blur' }
+        ]
+      }
     }
   },
   methods: {
@@ -107,7 +147,7 @@ export default {
       this.querInfo.pagenum = newPage
       this.initGoodsList()
     },
-    deleteGood (id) {
+    deleteGoods (id) {
       this.$confirm('此操作将永久删除该商品, 是否继续?', '提示', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
@@ -120,6 +160,27 @@ export default {
       }).catch(() => {
         this.$message.info('已取消删除')
       })
+    },
+    async showReviseGoodsDialog (id) {
+      this.reviseGoodsDialogVisible = true
+      const { data: res } = await this.$http.get(`goods/${id}`)
+      if (res.meta.status !== 200) return this.$message.error('获取商品信息失败')
+      this.reviseGoodsForm = res.data
+    },
+    // 确定编辑商品
+    confirmReviseGoods () {
+      this.$refs.reviseGoodsRef.validate(async valid => {
+        if (!valid) return this.$message.error('请输入必要的表单项')
+        const { data: res } = await this.$http.put(`goods/${this.reviseGoodsForm.goods_id}`, this.reviseGoodsForm)
+        if (res.meta.status !== 200) return this.$message.error('修改商品失败')
+        this.$message.success('修改商品成功')
+        this.initGoodsList()
+      })
+      this.reviseGoodsDialogVisible = false
+    },
+    // 关闭编辑对话框
+    reviseDialogClosed () {
+      this.$refs.reviseGoodsRef.resetFields()
     },
     goAddPage () {
       this.$router.push('/add')
