@@ -303,7 +303,7 @@ export default {
         type: 'warning'
       }).then(async () => {
         const { data: res } = await this.$http.delete(`users/${id}`)
-        if (res.meta.status !== 200) return this.$message.error('删除用户成功')
+        if (res.meta.status !== 200) return this.$message.error('删除用户失败')
         this.initUserList()
         this.$message.success('删除用户成功')
       }).catch(() => {

@@ -201,13 +201,12 @@ export default {
       const { data: res } = await this.$http.get('categories')
       if (res.meta.status !== 200) return this.$message.error('获取分类失败')
       this.cateList = res.data
-      console.log(res.data)
     },
     // 选择商品分类发生变化
     handleChange () {
       this.initParamsList()
     },
-    // 切换参数标签
+    // 切换参数(动态/静态)
     handleClick () {
       this.initParamsList()
     },
@@ -226,14 +225,13 @@ export default {
         } else {
           this.onlyTabletList = res.data
         }
-        console.log(res.data.attr_vals)
       }
     },
     // 显示添加参数对话框
     showAddParamsDialog () {
       this.addParamsDialogVisible = true
     },
-    // 关闭动态参数对话框
+    // 关闭添加参数对话框
     addParamsClosed () {
       this.$refs.addParamsRef.resetFields()
     },
