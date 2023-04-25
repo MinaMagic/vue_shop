@@ -165,7 +165,6 @@ export default {
       const { data: res } = await this.$http.get('categories')
       if (res.meta.status !== 200) return this.$message.error('获取商品分类失败')
       this.cateList = res.data
-      console.log(res.data)
     },
     // 切换Tab-pane标签前
     beforeTabLeave (activeName, oldActiveName) {
@@ -205,7 +204,6 @@ export default {
     handleRemove (file) {
       const filePath = file.response.data.tmp_path
       this.addGoodsForm.pics = this.addGoodsForm.pics.filter(item => item.pic !== filePath)
-      console.log(this.addGoodsForm.pics)
     },
     // 监听预览图片事件
     handlePreview (file) {

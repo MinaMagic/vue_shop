@@ -155,7 +155,6 @@ export default {
       if (res.meta.status !== 200) return this.$message.error('获取分类失败')
       this.cateList = res.data.result
       this.total = res.data.total
-      console.log(res.data.result)
     },
     handleSizeChange (newSize) {
       this.querInfo.pagesize = newSize
@@ -173,7 +172,6 @@ export default {
       const { data: res } = await this.$http.get('categories', { params: { type: 2 } })
       if (res.meta.status !== 200) return this.$message.error('获取父级分类失败')
       this.parentCateList = res.data
-      console.log(res.data)
     },
     parentCateChange () {
       if (this.selectCateKeys.length > 0) {
@@ -207,7 +205,6 @@ export default {
       const { data: res } = await this.$http.get(`categories/${id}`)
       if (res.meta.status !== 200) return this.$message.error('获取分类信息失败')
       this.reviseCateForm = res.data
-      console.log(this.reviseCateForm)
     },
     confirmReviseCate () {
       this.$refs.reviseCateRef.validate(async valid => {

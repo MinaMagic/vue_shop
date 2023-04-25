@@ -268,7 +268,6 @@ export default {
     confirmAdd () {
       this.$refs.userFormRef.validate(async valid => {
         if (valid) {
-          console.log(this.addUserForm)
           const { data: res } = await this.$http.post('users', this.addUserForm)
           if (res.meta.status !== 201) return this.$message.error('添加用户失败')
           this.$message.success('添加用户成功')
@@ -316,7 +315,6 @@ export default {
       const { data: res } = await this.$http.get('roles')
       if (res.meta.status !== 200) return this.$message.error('获取角色列表失败')
       this.rolesList = res.data
-      console.log(res.data)
     },
     setRoleDialogClosed () {
       this.selectRoleId = ''

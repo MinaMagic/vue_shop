@@ -1,25 +1,36 @@
 <template>
     <el-container class="home-container">
         <!-- 头部区域 -->
-        <el-header>
+        <el-header height="70px">
           <div>
             <img src="@/assets/logo.png" alt="">
             <span>电商后台管理系统</span>
           </div>
-          <el-button type="info" @click="logout">退出</el-button>
+          <el-popover
+            placement="bottom"
+            trigger="hover">
+            <el-button type="info" @click="logout" class="logout">退出登录</el-button>
+            <el-button slot="reference">
+              <i class="el-icon-user-solid"></i>
+              <span>{{ username }}</span>
+              <i class="el-icon-arrow-down"></i>
+            </el-button>
+          </el-popover>
         </el-header>
         <el-container>
           <!-- 侧边栏 -->
             <el-aside :width="isCollapse?'68px':'200px'">
-              <div class="toggle-button" @click="isCollapse=!isCollapse">|||</div>
-              <el-menu :default-openeds="['1', '3']" background-color="#313743" text-color="#fff" unique-opened :collapse="isCollapse" :collapse-transition="isCollapse" router :default-active="activePath">
+                <el-tooltip class="item" effect="dark" :content="isCollapse? '展开' : '折叠'" placement="top">
+                  <div class="toggle-button" @click="isCollapse=!isCollapse">|||</div>
+                </el-tooltip>
+              <el-menu unique-opened :collapse="isCollapse" :collapse-transition="isCollapse" router :default-active="activePath">
                 <el-submenu :index="item.id.toString()" v-for="item in menuList" :key="item.id">
                   <template slot="title">
                     <i :class="iconObj[item.id]"></i>
                     <span>{{ item.authName }}</span>
                   </template>
                   <el-menu-item :index="subItem.path" v-for="subItem in item.children" :key="subItem.id" @click="changeActivePath(subItem.path)">
-                    <i class="el-icon-s-custom"></i>
+                    <i class="el-icon-menu"></i>
                     <span>{{ subItem.authName }}</span>
                   </el-menu-item>
                 </el-submenu>
@@ -39,14 +50,16 @@ export default {
     return {
       menuList: [],
       iconObj: {
-        125: 'el-icon-user',
-        103: 'el-icon-warning-outline',
-        101: 'el-icon-goods',
-        102: 'el-icon-shopping-bag-1',
-        145: 'el-icon-edit-outline'
+        125: 'el-icon-user-solid',
+        103: 'el-icon-warning',
+        101: 'el-icon-s-goods',
+        102: 'el-icon-s-shop',
+        145: 'el-icon-s-data'
       },
       isCollapse: false,
-      activePath: ''
+      activePath: '',
+      // 登录用户名称
+      username: ''
     }
   },
   methods: {
@@ -58,7 +71,6 @@ export default {
       const { data: res } = await this.$http.get('menus')
       if (res.meta.status !== 200) return this.$message.error(res.meta.msg)
       this.menuList = res.data
-      console.log(res.data)
     },
     changeActivePath (activePathName) {
       window.sessionStorage.setItem('activePath', activePathName)
@@ -67,6 +79,7 @@ export default {
   },
   created () {
     this.getMeunList()
+    this.username = window.sessionStorage.getItem('username')
   }
 }
 </script>
@@ -79,7 +92,7 @@ export default {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background-color: #313743;
+  background-color: #4338ca;
   color: #fff;
   font-size: 20px;
   img {
@@ -89,19 +102,21 @@ export default {
     margin-right: 10px;
   }
 }
+.logout {
+    margin-left: 25px;
+  }
 .el-aside {
-  background-color: #313743;
+  background-color: #fff;
   .toggle-button {
     text-align: center;
-    background-color: #475163;
-    padding: 5px;
-    color: #fff;
+    background-color: #fff;
+    padding: 10px;
+    color: #000;
     cursor: pointer;
   }
   .el-menu {
     border-right: none;
   }
-
 }
 
 .el-menu:not(.el-menu--collapse) {
@@ -109,6 +124,6 @@ export default {
     min-height: 400px;
   }
 .el-main {
-    background-color: #fff;
+    background-color: #f1f2f6;
 }
 </style>

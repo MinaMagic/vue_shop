@@ -109,7 +109,7 @@
       :visible.sync="progressDialogVisible"
       width="30%">
       <span>
-        <el-timeline :reverse="reverse">
+        <el-timeline>
           <el-timeline-item
             v-for="(activity, index) in progressInfo"
             :key="index"
@@ -228,7 +228,6 @@ export default {
       if (res.meta.status !== 200) return this.$message.error('获取订单信息失败')
       this.orderList = res.data.goods
       this.total = res.data.total
-      console.log(res.data)
     },
     handleSizeChange (newSize) {
       this.querInfo.pagesize = newSize

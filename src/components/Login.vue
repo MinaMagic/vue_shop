@@ -32,8 +32,8 @@ export default {
   data () {
     return {
       loginForm: {
-        username: '',
-        password: ''
+        username: 'admin',
+        password: '123456'
       },
       loginFormRules: {
         username: [
@@ -58,6 +58,7 @@ export default {
           if (res.meta.status !== 200) return this.$message.error('登录失败')
           this.$message.success('登录成功')
           window.sessionStorage.setItem('token', res.data.token)
+          window.sessionStorage.setItem('username', res.data.username)
           this.$router.push('/home')
         }
       })
@@ -66,7 +67,6 @@ export default {
       this.$refs[formName].resetFields()
     },
     iptPsw () {
-      console.log('hi')
     }
   }
 }

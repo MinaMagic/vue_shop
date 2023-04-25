@@ -137,7 +137,6 @@ export default {
       if (res.meta.status !== 200) return this.$message.error('获取商品信息失败')
       this.goodsList = res.data.goods
       this.total = res.data.total
-      console.log(res.data)
     },
     handleSizeChange (newSize) {
       this.querInfo.pagesize = newSize
