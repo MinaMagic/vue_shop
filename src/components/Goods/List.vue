@@ -76,28 +76,28 @@
       </el-pagination>
 
       <!-- 修改商品对话框 -->
-    <el-dialog
-      title="编辑商品"
-      :visible.sync="reviseGoodsDialogVisible"
-      width="30%" @close="reviseDialogClosed">
-      <span>
-        <el-form :model="reviseGoodsForm" :rules="reviseGoodsRules" ref="reviseGoodsRef" label-width="80px">
-          <el-form-item label="商品名称" prop="goods_name">
-            <el-input v-model="reviseGoodsForm.goods_name" disabled></el-input>
-          </el-form-item>
-          <el-form-item label="商品价格" prop="goods_price">
-            <el-input v-model="reviseGoodsForm.goods_price"></el-input>
-          </el-form-item>
-          <el-form-item label="商品重量" prop="goods_weight">
-            <el-input v-model="reviseGoodsForm.goods_weight"></el-input>
-          </el-form-item>
-        </el-form>
-      </span>
-      <span slot="footer" class="dialog-footer">
-        <el-button @click="reviseGoodsDialogVisible = false">取 消</el-button>
-        <el-button type="primary" @click="confirmReviseGoods">确 定</el-button>
-      </span>
-    </el-dialog>
+      <el-dialog
+        title="编辑商品"
+        :visible.sync="reviseGoodsDialogVisible"
+        width="30%" @close="reviseDialogClosed">
+        <span>
+          <el-form :model="reviseGoodsForm" :rules="reviseGoodsRules" ref="reviseGoodsRef" label-width="80px">
+            <el-form-item label="商品名称" prop="goods_name">
+              <el-input v-model="reviseGoodsForm.goods_name" disabled></el-input>
+            </el-form-item>
+            <el-form-item label="商品价格" prop="goods_price">
+              <el-input v-model="reviseGoodsForm.goods_price"></el-input>
+            </el-form-item>
+            <el-form-item label="商品重量" prop="goods_weight">
+              <el-input v-model="reviseGoodsForm.goods_weight"></el-input>
+            </el-form-item>
+          </el-form>
+        </span>
+        <span slot="footer" class="dialog-footer">
+          <el-button @click="reviseGoodsDialogVisible = false">取 消</el-button>
+          <el-button type="primary" @click="confirmReviseGoods">确 定</el-button>
+        </span>
+      </el-dialog>
     </el-card>
   </div>
 </template>
