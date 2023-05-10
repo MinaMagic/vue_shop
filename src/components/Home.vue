@@ -21,7 +21,9 @@
           <!-- 侧边栏 -->
             <el-aside :width="isCollapse?'68px':'200px'">
                 <el-tooltip class="item" effect="dark" :content="isCollapse? '展开' : '折叠'" placement="top">
-                  <div class="toggle-button" @click="isCollapse=!isCollapse">|||</div>
+                  <div class="toggle-button" @click="isCollapse=!isCollapse">
+                    <i :class="isCollapse? 'el-icon-s-fold' : 'el-icon-s-unfold'" style="font-size: 25px"></i>
+                  </div>
                 </el-tooltip>
               <el-menu unique-opened :collapse="isCollapse" :collapse-transition="isCollapse" router :default-active="activePath">
                 <el-submenu :index="item.id.toString()" v-for="item in menuList" :key="item.id">
@@ -50,11 +52,11 @@ export default {
     return {
       menuList: [],
       iconObj: {
-        125: 'el-icon-user-solid',
-        103: 'el-icon-warning',
-        101: 'el-icon-s-goods',
-        102: 'el-icon-s-shop',
-        145: 'el-icon-s-data'
+        125: 'el-icon-user',
+        103: 'el-icon-setting',
+        101: 'el-icon-goods',
+        102: 'el-icon-tickets',
+        145: 'el-icon-monitor'
       },
       isCollapse: false,
       activePath: '',
