@@ -123,3 +123,7 @@
 [2023-05-27T09:41:20.086] [DEBUG] cheese - admin
 [2023-05-27T09:41:20.123] [DEBUG] cheese - null
 [2023-05-27T09:41:20.123] [DEBUG] cheese - null
+[2023-06-18T21:46:25.080] [DEBUG] cheese - login => username:admin,password:123456
+[2023-06-18T21:46:25.082] [DEBUG] cheese - admin
+[2023-06-18T21:46:25.106] [DEBUG] cheese - null
+[2023-06-18T21:46:25.106] [DEBUG] cheese - null
