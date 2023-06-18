@@ -1,4 +1,5 @@
 module.exports = {
+  publicPath: './',
   transpileDependencies: true,
   chainWebpack: config => {
     config.when(process.env.NODE_ENV === 'production', config => {
